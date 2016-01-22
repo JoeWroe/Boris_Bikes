@@ -2,6 +2,7 @@ require 'DockingStation'
 
 describe DockingStation do
   subject(:DockingStation) {described_class.new}
+  let(:bike) { double :bike }
 
   describe '#capacity' do
 
@@ -30,7 +31,7 @@ describe DockingStation do
   describe '#release_bike' do
 
     it 'expects "release_bike" to get bike' do
-      bike = Bike.new #GUARD
+      allow(bike).to receive(:working?).and_return(true)
       subject.dock(bike) #GUARD
       expect(subject.release_bike).to eq bike
     end
@@ -44,6 +45,13 @@ describe DockingStation do
       bike.report_broken #GUARD
       subject.dock(bike) #GAURD
       expect { subject.release_bike }.to raise_error("No working bikes.")
+    end
+
+    it 'knows when a working bike has been removed from the docking station' do
+      bike = Bike.new
+      subject.dock(bike)
+      subject.release_bike
+      expect(subject.bikes).to eq []
     end
 
   end

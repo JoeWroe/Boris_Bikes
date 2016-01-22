@@ -12,12 +12,21 @@ DEFAULT_CAPACITY = 20
 
   def release_bike   # Doing 2 things
     @working_bike = nil
+
     if @bikes.empty?   # => Defining the capacity
       raise Exception.new("No Bikes Available")
     else
+
       @bikes.each do |bike|
-        @working_bike = bike; break if bike.working? == true # => Removing a bike that works
+        if bike.working? == true # => Removing a bike that works
+          @working_bike = bike
+          break
+        end
       end
+      if @working_bike == nil
+        raise Exception.new("No working bikes.") 
+      end
+      @bikes.delete(@working_bike)
       @working_bike
     end
   end
