@@ -2,6 +2,7 @@ require 'DockingStation'
 
 describe DockingStation do
   subject(:DockingStation) {described_class.new}
+  let(:bike) { double :bike }
 
   describe '#capacity' do
 
@@ -30,7 +31,7 @@ describe DockingStation do
   describe '#release_bike' do
 
     it 'expects "release_bike" to get bike' do
-      bike = Bike.new #GUARD
+      allow(bike).to receive(:working?).and_return(true)
       subject.dock(bike) #GUARD
       expect(subject.release_bike).to eq bike
     end
